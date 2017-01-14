@@ -1,0 +1,145 @@
+Start by typing ghci in the prompt
+By default, the prompt is Prelude.
+If I want it to be gchi -as the book- type
+  :set prompt "ghci> "
+If I want to change its default to start it directly,
+create a .ghci file in the home folder and its content:
+  :set prompt "ghci> "
+_______________________________________________________
+
+INTRO:
+
+HASKELL
+
+Is a purely functional programming language, so:
+- You don't write what to do - you write what stuff is.
+- Operations are expressed via functions.
+- Variable values are permanent.
+- A function has no side effects, property called referential transparency.
+
+Haskell is:
+- Lazy: it executes a function when it needs tpo show the result.
+- Statically typed: the compiler knows which piece is a string, number, etc.
+- Has type inference: you don't have to explicity label every piece of code with a type,
+  Haskell figures it out.
+- Is elegant and concise since it uses a lot of high-level concepts, so programs are usually
+  shorter than thei imperative equivalents.
+_______________________________________________________
+
+BASIC CONCEPTS:
+
+- Laziness, etc
+- let is a keyword used to define a name in GHCi. Entering "let a = 1"
+  in GHCi is equivalent to writing a = 1 in a script, then loading it with :l
+_______________________________________________________
+
+FUNCTIONS:
+
+- functionName parameter = body
+- The order the funcitons get declared in a .hs file doesn't matter.
+- Defined functions can call each other.
+- An if in Haskell is not a statement, it is a expression:
+  in order to be executed, requires an else.
+- The apostrophe (') at the end of a function name doesn't have 
+  any special meaning in Haskell's syntax, which means its a valid
+  character top use in a function name. It is ude to denote either
+  a strict version of a function (i.e. that it isn't lazy) or a
+  slightly modified version of a function or a variable with a
+  similar name.
+- Functions cannot start with capital Letter
+- A declaration such as "conanO'Brien" at "baby.hs" is not a function
+  since it doesn't take any parameters.It is a definition or a name, hence 
+  "conanO'Brien" and its content can be used interchangeably.
+
+_______________________________________________________
+
+LISTS:
+
+- Are homogenous: they store elements of the same type.
+- Are surrounded by square brackets and the list values are separated by commas:
+  (e.g., [1, 2, 3, 8, 9])
+- The use of the let keyword is really helfpulf when working with lists (see BASIC CONCEPTS)
+- CONCATENION: done with ++. All parameters (left and right) have to be of the same type:
+  i.e., if you just one to ad a number to a list through ++ you cannot treat it like a : and
+  directly put the "number : [list]]", you actually have to treat the single number as a list. 
+- We can use list functions on strings since "hey" is actually the same as the list
+  ['h','e','y'], and this will appear as "hey" as a whole, not as in number lists
+  -with commas separating each value.
+- CONS OPERATOR: ":" it adds a SINGLE value  -of the same category, not exact same type- into
+  the beginning of a list. It is really handy when working with huge lists: the ++ has
+  to walk through the whole list, while : doesn't since it adds the value at the beginning.
+- [1,2,3,4] is exactly the same as 1:2:3:4:[]. Why? "[]" prepend into "4", equalling "[4]".
+  Then, "3" prepends into "[4]", and so on.
+- [] is an empty list.
+- [[]] is a list that contains one empty list.
+- [[],[],[]] is a list that contains three empty lists.
+- Accessing lists elements: through the !! operator. THe indicces start at 0.
+- Lists can contain lists as elements, and lists can contain lists tat contain lists, and so on.
+- Comparing lists (<, >, <=, >=). Both lists have to be of the same type. It compares them from
+  left to right, one number at a time, and once differing numbers are found, a conclusion is made
+  (true, false). A nonempty list is ALWAYS considered to be greater than an empty list.
+  
+LIST FUNCTIONS:
+- head [1, 2, 3]. Returns 1 (the list' head, or first element).
+- tail [1, 2, 3]. Returns [2, 3] (the whole list' content exceptuating the head).
+- last [1, 2, 3]. Returns 3 (the list' last element).
+- init [1, 2, 3]. Returns [1, 2], it is, everything except the last element.
+BE CAREFUL WHEN USING head, tail, last, int , AN NEVER USE THEM ON EMPTY LISTS: that's an error
+that isn't caughtat compile time, so it will bring problems if we don't detect them.
+- lenght [1, 2, 3]. Returns 3, the list' lenght. STARTS AT 1, not at 0.
+- null [1,2,3]. Returns "false", since the list != null. Hence, "null []" returns "false".
+- reverse [1,2,3]. Returns [3,2,1], as it name states.
+- take 2 [1,2,3]. Returns [1,2], since the function takes two parameters -2 and [1,2,3] in this case-
+  and extracts the specified number elements from the beginning of the list. take 0 [1,2] returns [].
+  take 5 [1,2] returns [1,2]
+- drop 2 [1,2,3]. Returns [2,3] since the function takes two parameters -2 and [1,2,3] in this case-
+  and drops the specified number elements from the beginning of the list. drop 0 [1,2] returns [1,2].
+  drop 9 [1,2] returns [].
+- minimum [1,2,3]. Returns 1.
+- maximum [1,2,3]. Returns 3.
+- sum [1,2,3]. Returns 6.
+- product [1,2,3,4]. Returns 24. 
+- elem 2 [1,2,3]. Returns True because "2" is an element of the list. It is usually called as an infix
+  function because is easier to read, such as 2 `elem` [1,2,3].
+  
+RANGES:
+- Ranges are used to make lists composed of elements that can be enumerated, or counted off in order.
+- [firstnumber/letter .. last number/letter]. This will show all the elements between them.
+- To specify a step between the numbers of the list: [firstnumber, secondnumber .. lastnumber].
+  - Example: [2,4..10] will ouptut [2,4,6,8,10].
+  - You only can write two numbers to set the step, as in the example above. For this reason, some
+    unarithmetic sequences can be ambiguous.
+  - To make a lost from a high numebr to a lower one it is mandatory to set an step.
+    E.g., [10..1] will create an empty list since Haskell goes from down to up.
+    Instead, [10,9..1] will be fine: [10,9,8,7,6,5,4,3,2,1].
+- By not specifying an upper limit, ranges can be infinite: [1..].
+- Operations are okay with ranges: [1,2..20*2].
+- Ranges can totally be parameters of list functions: sum [1..20*2] = 820.
+- The use of the "take" function is particularly handy when using an inifinite list: since Haskell
+  is lazy, it will only calculate the number of numbers specified at take.
+  E.g.: take 7 [9,293..] = [9,293,577,861,1145,1429,1713].
+- The funcion cycle takes a list and replicates its items indefinitely to form an infinite list.
+  But taking a bit can be useful: take 15 (cycle [1..4]) = [1,2,3,4,1,2,3,4,1,2,3,4,1,2,3].
+- repeat is similar to cycle, but instead it creates a list reproducing the whole element.
+  E.g.: take 3 (repeat [1..3]) = [[1,2,3],[1,2,3],[1,2,3]] | take 6 (repeat 3) [3,3,3,3,3,3].
+- replicate creates a list composed of a single item using two parameters: replicate 3 5 = [5,5,5].
+- Watch out when using ranges with floating-points number, can output crazy results.
+  E.g.: [0.1,0.4..1] = [0.1,0.4,0.7000000000000001,1.0].
+  
+LIST COMPREHENSIONS
+- List comprehensions allows writing the mathematical cponcept of set comprehensions.
+- take [2,4..] = [x*2 | x <- [1..10]]. Why?
+  - x <- [1..10]] = draw the elements from 1 to 10. x takes on the value of each element that is drawn in this same range ([1..10]).
+  - x*2 = output of the list comprehension.
+- List comprehensions are really handy if we add conditions (predicates). Sintaxically, predicates go at the end of the list and are separated by a comma.  
+
+_______________________________________________________
+
+TO DO: Take notes of the first part of the first chapter. Infix functions, boolean values, etc.
+- Boolean values: True and False.
+- Boolean operators: &&, ||, not, ==, /=
+
+DOUBTS:
+
+- What happens if I load multiple .hs files and they have the same named functions?
+  When calling a function, which one gets executed? The last file load or load?
